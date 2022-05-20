@@ -19,11 +19,11 @@
               <div class="alert alert-danger">{{Session::get('fail')}}</div>
                   
               @endif
-              <form action="{{route('addProduct')}}" method="POST" class="forms-sample" enctype="multipart/form-data">
+              <form action="{{route('edit',['id'=>$pijama->id])}}" method="POST" class="forms-sample">
               @csrf
                 <div class="form-group">
                   <label for="Nom">Nom de produit</label>
-                  <input type="text" class="form-control"  name="nom" placeholder="Nom">
+                  <input type="text" class="form-control"  name="name" placeholder="Nom">
                   <span class="text-danger">@error('nom'){{$message}} @enderror</span>
                 </div>
                 <div class="form-group">
@@ -69,17 +69,6 @@
 
                 </div>
 
-                <div class="form-group">
-                    <label>Ajouter images principale</label>
-                    <input type="file" class="custom-file-input" name="image">
-
-                </div>
-                <div class="form-group">
-                  <label>Ajouter images On Hover</label>
-                  <input type="file" class="custom-file-input" name="imageHover">
-                  <span class="text-danger">@error('imageHover'){{$message}} @enderror</span>
-
-                </div>
                  <div class="form-group">
                   <label>Categorie de pijama :</label>
                    <select name="categorie">
@@ -100,12 +89,7 @@
                     <span class="text-danger">@error('special'){{$message}} @enderror</span>
 
                 </div>
-                <div class="form-group">
-                  <label>Tags:</label>
-                  <br/>
-                  <input data-role="tagsinput" type="text" name="tags" class="form-control">
-                  <span class="text-danger">@error('tags'){{$message}} @enderror</span>
-                </div>
+              
                 <button type="submit" class="btn btn-primary me-2">Submit</button>
                 <button type="reset" class="btn btn-light">Cancel</button>
               </form>

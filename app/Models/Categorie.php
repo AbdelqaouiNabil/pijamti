@@ -13,7 +13,7 @@ class Categorie extends Model
     ];
     protected function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(App\Models\Product::class);
     }
 }
 

@@ -6,6 +6,7 @@ use App\Models\Categorie;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -23,9 +24,44 @@ class HomeController extends Controller
     return view('shopAll',['products'=>$products,'cart'=>$cart,'categorie'=>$categorie]);
 
    }
+
+  //  filter by categorie
+  public function filterByCategorie($id){
+    $products = DB::table('products')->where('categorie_id',$id)->get();
+    $categorie = Categorie::all();
+    $cart = Cart::instance('shopping')->content();
+    return view('shopAll',['products'=>$products,'cart'=>$cart,'categorie'=>$categorie]);
+  }
+
+
+
+
+  public function filterByPriceRange(Request $request){
+    $categorie = Categorie::all();
+    $cart = Cart::instance('shopping')->content();
+    $price = str_replace("$", "", $request->input('filterPrice'));
+    $explode_id = explode("-", $price);
+    $products = DB::table('products')->whereBetween('price', $explode_id)->get();
+    return view('shopAll',['products'=>$products,'cart'=>$cart,'categorie'=>$categorie]);
+
+  }
+
+  
+
+
+public function filterBySize(Request $request){
+  return $request->all();
+}
+
+
+
    public function login(){
       return view('login');
    }
+
+
+
+
 
    function check(Request $request){
       $request->validate([
@@ -47,17 +83,32 @@ class HomeController extends Controller
 
 
    }
+
+
+
+
+
    public function logout(){
       if(session()->has('loggedUser')){
           session()->pull('loggedUser');
           return redirect('/auth/login');
       }
  }
+
+
+
+
+
  public function VoirProduit($id){
-    $cart = Cart::content();
+    $cart = Cart::instance('shopping')->content();
     $product = Product::find($id);
      return view('productPage',['product'=>$product,'cart'=>$cart]);
  }
+
+
+
+
+
 
  public function ajouterAuCart(Request $request){
     //dd($request);
@@ -135,7 +186,7 @@ public function deleteItemFromFavoris($id){
 public function deleteAllItemFromCart(){
    
     
-        $remove = Cart::destroy();
+        $remove = Cart::instance('shopping')->destroy();
           if($remove){
             return back()->with('fail','ressayer plut tard');
       

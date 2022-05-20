@@ -622,15 +622,15 @@
 	function price_slider(){
 		$("#slider-range").slider({
 			range: true,
-			min: 12,
-			max: 200,
-			values: [0, 100],
+			min: 100,
+			max: 500,
+			values: [0, 300],
 			slide: function(event, ui) {
-				$("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+				$("#amount").val(ui.values[0] + " MAD"  + "-" + ui.values[1] +" MAD");
 			}
 		});
-		$("#amount").val("$" + $("#slider-range").slider("values", 0) +
-		" - $" + $("#slider-range").slider("values", 1));
+		$("#amount").val( $("#slider-range").slider("values", 0) +" MAD"  +
+		" -" + $("#slider-range").slider("values", 1) + " MAD");
 	}
 	price_slider();
 	

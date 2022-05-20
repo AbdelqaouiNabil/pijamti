@@ -17,6 +17,8 @@
 <!-- Main Style CSS -->
 <link rel="stylesheet" href="{{asset('./css/style.css')}}">
 <link rel="stylesheet" href="{{asset('./css/responsive.css')}}">
+
+<script src="https://kit.fontawesome.com/1a35748197.js" crossorigin="anonymous"></script>
 </head>
 <body class="template-index belle template-index-belle">
 <div id="pre-loader">
@@ -339,8 +341,8 @@
                                             <div class="button-set">
                                               @if (Cart::instance('wishlist')->content()->where('id',$product->id)->count())
                                               <div class="wishlist-btn">
-                                                <a class="wishlist add-to-wishlist" href="">
-                                                  <i class="fas fas-heart"></i>
+                                                <a class="wishlist add-to-wishlist" style="pointer-events: none;">
+                                                  <i class="fas fa-heart" style="color: red"></i>
                                                 </a>
                                             </div>
                                               @else

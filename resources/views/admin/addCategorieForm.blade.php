@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('body')
  <!-- partial -->
- <div class="main-panel">        
+     
     <div class="content-wrapper" style="width: 100%" >
       <div class="row">
         <div class="col-md-6 m-auto">
@@ -42,5 +42,5 @@
         </div>
     </div>
 </div>
-</div>
+
 @endsection

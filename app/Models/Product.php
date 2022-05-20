@@ -15,8 +15,8 @@ class Product extends Model
         'color' => 'array',
         'size' => 'array'
     ];
-    protected function categories()
+    protected function categorie()
     {
-        return $this->belongsTo(Categorie::class);
+        return $this->belongsTo(Categorie::class,);
     }
 }

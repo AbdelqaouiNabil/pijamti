@@ -120,7 +120,7 @@
                             </a>
                             <!--Minicart Popup-->
                             <div id="header-cart" class="block block-cart">
-                                @if (Cart::content()->count()>0)
+                                @if (Cart::instance('shopping')->content()->count()>0)
                                 <ul class="mini-products-list">
                                     @foreach ($cart as $cart)
                                     <li class="item">
@@ -372,7 +372,9 @@
                                          @endforeach
                                         </div>
                                     </div>
+                            
                                     <p class="infolinks"> <a href="#productInquiry" class="emaillink btn">Vous Avez des Question sur se Produit</a></p>
+                                   
                                     <!-- Product Action -->
                                     @if (Cart::instance('shopping')->content()->where('id',$product->id)->count())
                                     <div class="product-action clearfix">
@@ -400,6 +402,15 @@
                                     </div>
                                     <!-- End Product Action -->
                                 </form>
+                                <div class="product-form__item--submit">
+                                    <h3 class="infolinks mt-5"> LES TAGES :</h3>
+
+                                @foreach($product->tags as $tag)
+
+                                  <span class="badge badge-warning" style="font-size:12pt;color:white">{{$tag->name}}</span>
+            
+                                 @endforeach
+                                </div>
                                   <!--Product Feature-->
                                   <div class="prFeatures">
                                     <div class="row">
@@ -423,11 +434,20 @@
                                 </div>
                                 <!--End Product Feature-->
                                 <div class="display-table shareRow">
-                                        <div class="display-table-cell medium-up--one-third">
-                                            <div class="wishlist-btn">
-                                                <a class="wishlist add-to-wishlist" href="#" title="Add to Wishlist"><i class="icon anm anm-heart-l" aria-hidden="true"></i> <span>Add to Wishlist</span></a>
-                                            </div>
+                                    @if (Cart::instance('wishlist')->content()->where('id',$product->id)->count())
+                                    <div class="display-table-cell medium-up--one-third">
+                                        <div class="wishlist-btn">
+                                            <a class="wishlist add-to-wishlist" href="#" style="pointer-events: none;" title="Add to Wishlist"> <i class="fas fa-heart" style="color: red"></i><span>déja ajouter aux Favoris</span></a>
                                         </div>
+                                    </div>
+                                    @else
+                                    <div class="display-table-cell medium-up--one-third">
+                                        <div class="wishlist-btn">
+                                            <a class="wishlist add-to-wishlist" href="{{route('addToWishlist',['id'=>$product->id])}}" title="Add to Wishlist"><i class="icon anm anm-heart-l" aria-hidden="true"></i> <span>ajouter aux Favoris</span></a>
+                                        </div>
+                                    </div>
+                                    @endif
+                                       
 
                                         <div class="display-table-cell text-right">
                                             <div class="social-sharing">

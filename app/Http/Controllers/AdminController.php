@@ -15,15 +15,80 @@ class AdminController extends Controller
 {
     public function index(){
         $data =['loggedUserInfo'=>Admin::where('id','=',session('loggedUser'))->first()];
+        $categories = Categorie::all();
+        return view('admin.dashboard',['categories'=>$categories],$data);
+    }
+    
+    public function pijama($id){
+        $data =['loggedUserInfo'=>Admin::where('id','=',session('loggedUser'))->first()];
+        $pijama = DB::table('products')->where('categorie_id',$id)->get();
+        $categories = Categorie::all();
+        $cat = DB::table('categories')->where('id',$id)->get();
+        if($pijama->count() > 0){
+            return view('admin.pyjamas.vueProduct',['categories'=>$categories,'pijama'=>$pijama,'cat'=>$cat],$data);
+        }
+        else{
+            return redirect()->route('dashboard')->with('noProduct','Pas De pyjama  cette categorie');
+        }
+    }
 
-        return view('admin.dashboard',$data);
+
+      // edit product 
+    public function editPijama($id){
+        $data =['loggedUserInfo'=>Admin::where('id','=',session('loggedUser'))->first()];
+        $colors =  DB::table('attribute_values')->where('attribute_id','1')->get();
+        $sizes =  DB::table('attribute_values')->where('attribute_id','2')->get();
+        $pijama = Product::find($id);
+        $categories = Categorie::all();
+
+        return view('admin.editProduct', ['categories'=>$categories,'colors'=> $colors,'sizes'=>$sizes,'pijama' => $pijama],$data);
+    }
+
+    public function edit(Request $request,$id){
+        $name =$request->input('name');
+        $description =$request->input('description'); 
+        $categorie = $request->input('categorie');
+        $price =str_replace("MAD"," ",$request->input('prix'));
+        $BarredPrice =str_replace("MAD"," ",$request->input('PrixBarre'));
+        $edit=array('name'=>$name,'description'=>$description,'price'=>$price,'BarredPrice'=>$BarredPrice,'color'=>$request->input('checkColor'),'size'=>$request->input('checkSize'),'categorie_id'=>$categorie,'special'=>$request->input('special'));
+        DB::table('products')->where('id',$id)->update($edit);
+        return redirect()->route('dashboard')->with('sucess','pijama bien modifier');
+    }
+
+
+     // edit product price
+    public function editPijamaPrice($id){
+        $data =['loggedUserInfo'=>Admin::where('id','=',session('loggedUser'))->first()];
+        $categories = Categorie::all();
+        $pijama = Product::find($id);
+        return view('admin.editPrice', ['pijama' => $pijama,'categories'=>$categories],$data);
+    }
+
+    
+    public function editPrice(Request $request,$id){
+        $price =str_replace("MAD"," ",$request->input('prix'));
+        $BarredPrice =str_replace("MAD"," ",$request->input('PrixBarre'));
+        $edit=array('price'=>$price,'BarredPrice'=>$BarredPrice);
+        DB::table('products')->where('id',$id)->update($edit);
+        return redirect()->route('dashboard')->with('sucess','prix bien modifier');
+    }
+
+
+    // edit product Image
+
+
+    public function del(Request $request){
+        $del = $request->input('delid');
+        
+               Product::whereIn('id',$del)->delete();
+              return redirect()->back();
     }
     public function addProductForm(){
         $data =['loggedUserInfo'=>Admin::where('id','=',session('loggedUser'))->first()];
         $categorie = Categorie::all();
         $colors =  DB::table('attribute_values')->where('attribute_id','1')->get();
         $sizes =  DB::table('attribute_values')->where('attribute_id','2')->get();
-        return view('admin.addProductForm',['colors'=> $colors,'sizes'=>$sizes,'categorie'=>$categorie],$data);
+        return view('admin.addProductForm',['colors'=> $colors,'sizes'=>$sizes,'categories'=>$categorie],$data);
     }
     public function addProduct(Request $request){
         $request->validate([
@@ -71,9 +136,9 @@ class AdminController extends Controller
 
     // add categorie form
     public function addCategorieForm(){
-
+        $categories = Categorie::all();
         $data =['loggedUserInfo'=>Admin::where('id','=',session('loggedUser'))->first()];
-        return view('admin.addCategorieForm',$data);
+        return view('admin.addCategorieForm',['categories'=>$categories],$data);
 
     }
 

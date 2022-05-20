@@ -2,6 +2,12 @@
 
 @section('body')
 <div class="content-wrapper">
+  @if (Session::get('noProduct'))
+<div class="alert alert-success">
+    {{Session::get('noProduct')}}
+</div>
+    
+@endif
     <div class="row">
       <div class="col-sm-12">
         <div class="home-tab">

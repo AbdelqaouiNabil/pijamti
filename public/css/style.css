@@ -619,7 +619,7 @@ a.quick-view { margin-bottom:5px !important; }
 .filterBox ul:not(.filter-color) input[type="checkbox"] + label > span { display:inline-block; width:13px;height:13px; margin:0.25em 0.5em 0.25em 0.25em; border:1px solid #d0d0d0; vertical-align:bottom; }
 .filterBox ul:not(.filter-color) input[type="checkbox"]:checked + label > span::before { content:"\f00c"; font-family:"FontAwesome"; display:block; width:12px; color:#000; font-size:9px; line-height:11px; text-align:center; }
 .filterBox .filter-color { display:table; list-style:none; width:100%; }
-.filterBox .filter-color .swacth-btn { display:block; float:left; margin-bottom:10px; position:relative; height:25px; width:25px; border:1px solid #fff; background-color:#f8f8f8; margin-right:10px; text-align:center; font-size:10px; line-height:21px; color:#000; cursor:pointer; }
+.filterBox .filter-color .swacth-btn { display:block; float:left; margin-bottom:10px; position:relative; height:25px; width:25px; border:1px solid #fff; background-color:#f8f8f8; margin-right:10px; font-size:10px; line-height:21px; color:#000; cursor:pointer; }
 .filterBox .filter-color .swacth-btn.checked { border-color:#000; }
 .filterBox .filter-color .black { background-color:#000; }
 .filterBox .filter-color .white { background-color:#fff; border:1px solid #ddd; }
@@ -649,8 +649,8 @@ a.quick-view { margin-bottom:5px !important; }
 .filter-widget .widget-title.active:after { content:'\eb66'; font-family:'annimex-icons'; display:inline-block; }
 
 .size-swacthes .swacth-list ul { margin-left:0; }
-.size-swacthes .swacth-list li { float:left; display:block; }
-.size-swacthes .swacth-list .swacth-btn { font-size:12px; display:block; margin-bottom:2px; width:31px; height:31px; line-height:31px; }
+.size-swacthes .swacth-list li { float:left; display:inline;margin-right:25px; }
+.size-swacthes .swacth-list .swacth-btn { font-size:12px; display:block; margin-bottom:2px; width:20px; height:20px; line-height:31px; }
 /* Price Range */
 .price-filter input[type="text"] { height:30px; padding:0 10px; text-align:center; font-size:12px; width:100px; }
 #slider-range.ui-slider-horizontal { background:#e9e9e9; border:none; border-radius:0; height:3px; margin-bottom:20px; }

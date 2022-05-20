@@ -37,6 +37,7 @@
         </div>
 <div class="grid-products grid--view-items">
     <div class="row">
+        @if($products->count()> 0)
         @foreach ($products as $product)
         <div class="col-6 col-sm-6 col-md-4 col-lg-3 item">
             <!-- start product image -->
@@ -58,13 +59,19 @@
                     <button class="btn btn-addto-cart" type="button">Voir Produit</button>
                 </a>
                 <div class="button-set">
-                  
+                    @if (Cart::instance('wishlist')->content()->where('id',$product->id)->count())
+                    <div class="wishlist-btn">
+                      <a class="wishlist add-to-wishlist" style="pointer-events: none;">
+                        <i class="fas fa-heart" style="color: red"></i>
+                      </a>
+                  </div>
+                    @else
                     <div class="wishlist-btn">
                         <a class="wishlist add-to-wishlist" href="/produit/favoris/{{$product->id}}" title="Add to Wishlist">
                             <i class="icon anm anm-heart-l"></i>
                         </a>
                     </div>
-                    
+                    @endif
                 </div>
                 <!-- end product button -->
             </div>
@@ -93,7 +100,11 @@
             
         </div>
         @endforeach
-       
+       @else
+       <div class="col-12 col-sm-12 col-md-12 col-lg-12 item mt-5">
+           <h3 class="text-center">Aucune pijama dans cette categorie</h3>
+       </div>
+       @endif
         
    
     </div>
