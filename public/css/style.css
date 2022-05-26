@@ -620,23 +620,7 @@ a.quick-view { margin-bottom:5px !important; }
 .filterBox ul:not(.filter-color) input[type="checkbox"]:checked + label > span::before { content:"\f00c"; font-family:"FontAwesome"; display:block; width:12px; color:#000; font-size:9px; line-height:11px; text-align:center; }
 .filterBox .filter-color { display:table; list-style:none; width:100%; }
 .filterBox .filter-color .swacth-btn { display:block; float:left; margin-bottom:10px; position:relative; height:25px; width:25px; border:1px solid #fff; background-color:#f8f8f8; margin-right:10px; font-size:10px; line-height:21px; color:#000; cursor:pointer; }
-.filterBox .filter-color .swacth-btn.checked { border-color:#000; }
-.filterBox .filter-color .black { background-color:#000; }
-.filterBox .filter-color .white { background-color:#fff; border:1px solid #ddd; }
-.filterBox .filter-color .red { background-color:#fe0000; }
-.filterBox .filter-color .blue { background-color:#0000fe; }
-.filterBox .filter-color .pink { background-color:#ffc1cc; }
-.filterBox .filter-color .gray { background-color:#818181; }
-.filterBox .filter-color .green { background-color:#027b02; }
-.filterBox .filter-color .orange { background-color:#fca300; }
-.filterBox .filter-color .yellow { background-color:#f9f900; }
-.filterBox .filter-color .blueviolet { background-color:#8A2BE2; }
-.filterBox .filter-color .brown { background-color:#A52A2A; }
-.filterBox .filter-color .darkGoldenRod { background-color:#B8860B; }
-.filterBox .filter-color .darkGreen { background-color:#006400; }
-.filterBox .filter-color .darkRed { background-color:#8B0000; }
-.filterBox .filter-color .dimGrey { background-color:#696969; }
-.filterBox .filter-color .khaki { background-color:#F0E68C; }
+
 
 .sidebar .sidebar_widget.categories .sub-level { position:relative; }
 .sidebar .sidebar_widget.categories .sub-level > a:after { content:'\ebe0'; font-family:'annimex-icons'; display:inline-block; position:absolute; right:0; top:3px; }

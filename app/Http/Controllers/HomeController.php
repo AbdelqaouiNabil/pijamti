@@ -4,13 +4,21 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Categorie;
 use App\Models\Admin;
+use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\reservationNotification;
 
 class HomeController extends Controller
 {
-   public function index(){
+ 
+
+
+public function index(){
        $products = Product::orderBy('id', 'DESC')->take(8)->get();
        $special = Product::where('special',1)->take(6)->get();
        $categorie = Categorie::all();
@@ -50,8 +58,29 @@ class HomeController extends Controller
 
 
 public function filterBySize(Request $request){
-  return $request->all();
+  $pro = Product::all();
+  $productsArray = array();
+  foreach($pro as $product){
+    if(in_array($request->input('size'),$product->size)){
+      array_push($productsArray,$product);
+      
+  }
+ 
 }
+
+$categorie = Categorie::all();
+$cart = Cart::instance('shopping')->content();
+return view('shopAll', ['products'=> $productsArray,'cart'=>$cart,'categorie'=>$categorie]);
+}
+
+
+public function filterByColor(Request $request){
+  return $request->input('color');
+}
+
+
+
+
 
 
 
@@ -216,4 +245,50 @@ return back()->with('sucess','Le panier est bien supprimer');
          $cart = Cart::instance('shopping')->content();
          return view('cart',['cart'=>$cart]);
  }
+
+
+
+
+ public function storeCart(Request $request){
+  $admin = Admin::all();
+  $request->validate([
+    'name'=>'required',
+    'phone' => ['required','regex:/^0[5687]/','numeric','digits:10'],
+    'adress' => 'required',
+    'city' => 'required',
+]);
+if(Cart::instance('shopping')->content()->count() > 0){
+  $mytime = Carbon::now();
+  $order = new Order();
+  $order->nom = $request->input('name');
+  $order->tel = $request->input('phone');
+  $order->adress = $request->input('adress');
+  $order->city = $request->input('city');
+  $order->created_at = $mytime->toDateTimeString();
+    
+ $order->save();
+ $order->id;
+ $cartItems = Cart::instance('shopping')->content();
+ foreach($cartItems as $item){
+   OrderItem::create([
+     'orderId'=> $order->id,
+     'proId'=> $item->id,
+     'productName'=> $item->name,
+     'qty'=> $item->qty,
+     'price'=> $item->price,
+     'color'=> $item->options->color,
+     'size'=> $item->options->size,
+     'subtotal'=> $item->subtotal,
+     'total'=> Cart::priceTotal(),
+   ]);
+ }
+ Cart::instance('shopping')->destroy();
+ return redirect()->route('cart')->with('saved','Votre commande a été envoyée avec succès, nous vous contacterons pour la confirmer ');
+}else{
+  return back()->with('fail','votre cart est vide');
+
+}
+
+ 
+}
 }

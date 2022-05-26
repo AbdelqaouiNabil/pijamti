@@ -166,4 +166,32 @@ class AdminController extends Controller
         }
        
     }
+
+     // order
+public function orders(){
+    $data =['loggedUserInfo'=>Admin::where('id','=',session('loggedUser'))->first()];
+    $admin = Admin::find(1);
+    $orders = DB::table('orders')->get();
+    $categorie = Categorie::all();
+    if($orders->count() > 0){
+    
+            $orderItems = DB::table('order_items')->get();
+       
+        
+        return view('admin.pyjamas.vueOrders',['categories'=>$categorie,'orders'=>$orders,'items'=>$orderItems,'admin'=>$admin],$data);
+    }
+    else{
+        return back()->with('alert',"Il n'y a pas de commandes actuellement");
+    }
+   
+
+}
+
+public function removeOrder($id){
+    $orders = DB::table('orders')->where('id', $id)->delete();
+    $order_items = DB::table('order_items')->where('orderId', $id)->delete();
+    return redirect()->back()->with('alert',"Commande bien supprimer");
+}
+
+
 }

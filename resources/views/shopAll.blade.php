@@ -16,7 +16,7 @@
                         </a>
                     </div>
                     <div class="col-4 col-md-4 col-lg-4 text-center filters-toolbar__item filters-toolbar__item--count d-flex justify-content-center align-items-center">
-                        <span class="filters-toolbar__product-count">Nombre de Produit:  {{$products->count()}}</span>
+                        <span class="filters-toolbar__product-count">Nombre de Produit: {{count($products)}}  </span>
                     </div>
                     <div class="col-4 col-md-4 col-lg-4 text-right">
                         <div class="filters-toolbar__item">
@@ -37,7 +37,7 @@
         </div>
 <div class="grid-products grid--view-items">
     <div class="row">
-        @if($products->count()> 0)
+        @if(count($products))
         @foreach ($products as $product)
         <div class="col-6 col-sm-6 col-md-4 col-lg-3 item">
             <!-- start product image -->

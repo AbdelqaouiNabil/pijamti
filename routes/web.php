@@ -4,16 +4,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::get('/test', [HomeController::class,'test'])->name('test');
+Route::post('/checktest', [HomeController::class,'checktest'])->name('checktest');
+
+
+
+
+
+
+
+
+
 
 Route::get('/', [HomeController::class,'index'])->name('home');
 Route::get('/produit/{id}', [HomeController::class,'VoirProduit'])->name('VoirProduit');
@@ -38,6 +39,11 @@ Route::post('/pijamti/shop/filterByPrice',[HomeController::class,'filterByPriceR
 
 
 Route::post('/pijamti/shop/filterBySize',[HomeController::class,'filterBySize'])->name('filterBySize');
+Route::post('/pijamti/shop/filterByColor',[HomeController::class,'filterByColor'])->name('filterByColor');
+
+//  Store Cart
+Route::post('/pijamti/shop/cart/storeCart',[HomeController::class,'storeCart'])->name('storeCart');
+
 
 
 Route::get('/auth/login', [HomeController::class,'login'])->name('login');
@@ -67,6 +73,9 @@ Route::get('/admin/categorie/ajouter',[AdminController::class,'addCategorieForm'
 Route::post('/admin/categorie/ajouter/submit',[AdminController::class,'addCategorie'])->name('addCategorie');
 
 Route::get('/admin/pijama/categorie/{id}',[AdminController::class,'pijama'])->name('pijama');
+
+Route::get('/admin/listeDesCommandes',[AdminController::class,'orders'])->name('Orders');
+Route::get('admin/order/remove/{id}',[AdminController::class,'removeOrder'])->name('removeorder');
 
 
 });
