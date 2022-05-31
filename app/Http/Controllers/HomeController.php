@@ -11,7 +11,9 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\reservationNotification;
+use App\Notifications\CommandeNotification;
+use Illuminate\Support\Facades\Hash;
+
 
 class HomeController extends Controller
 {
@@ -31,6 +33,10 @@ public function index(){
     $cart = Cart::instance('shopping')->content();
     return view('shopAll',['products'=>$products,'cart'=>$cart,'categorie'=>$categorie]);
 
+   }
+
+   public function contact(){
+    return view('contact');
    }
 
   //  filter by categorie
@@ -101,7 +107,7 @@ public function filterByColor(Request $request){
         if(!$userInfo){
             return back()->with('fail','Nous ne reconnaissans pas votre email');
         }else{
-               if($request->password == $userInfo->password){
+               if(Hash::check($request->password, $userInfo->password)){
                    $request->session()->put('loggedUser',$userInfo->id);
                    return redirect('admin/dashboard');
 
@@ -267,6 +273,8 @@ if(Cart::instance('shopping')->content()->count() > 0){
   $order->created_at = $mytime->toDateTimeString();
     
  $order->save();
+ Notification::send($admin,new CommandeNotification($request->input('name')));
+
  $order->id;
  $cartItems = Cart::instance('shopping')->content();
  foreach($cartItems as $item){
@@ -283,6 +291,7 @@ if(Cart::instance('shopping')->content()->count() > 0){
    ]);
  }
  Cart::instance('shopping')->destroy();
+
  return redirect()->route('cart')->with('saved','Votre commande a été envoyée avec succès, nous vous contacterons pour la confirmer ');
 }else{
   return back()->with('fail','votre cart est vide');

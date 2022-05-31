@@ -2,6 +2,7 @@
 @section('body')
    <!-- partial -->
      
+        @if($orders->count() > 0)
         <div class="content-wrapper">
           <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
@@ -10,7 +11,7 @@
                   <h4 class="card-title">Liste des Cammandes </h4>
                   
                   <div class="table-responsive">
-                    <form action="{{route('del')}}" method="POST">
+                    <form action="{{route('delMultipleOrder')}}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-danger mb-5" id="deleteAllSelectedProducts">Supprimer</button>
                     <table class="table">
@@ -113,6 +114,11 @@
             
         </div>
         <!-- content-wrapper ends -->
+        @else
+        <div class="m-auto">
+          <h3 class="text-center "> Pas de commande pour le momment</h3>
+        </div>
+        @endif
       
     
 @endsection

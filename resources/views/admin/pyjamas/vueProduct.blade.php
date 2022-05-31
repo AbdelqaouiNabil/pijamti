@@ -73,9 +73,7 @@
                         <td>
                           <a href="{{route('editPijamaPrice',['id'=>$pijama->id])}}" class="badge badge-warning">Modifier</a>
                         </td>
-                        <td>
-                          <a href="{{route('editPijamaImage',['id'=>$pijama->id])}}" class="badge badge-warning">Modifier</a>
-                        </td>
+                        
                       </tr>
                            
                        @endforeach

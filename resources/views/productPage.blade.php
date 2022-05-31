@@ -77,28 +77,26 @@
                         <!--Desktop Menu-->
                         <nav class="grid__item" id="AccessibleNav"><!-- for mobile -->
                             <ul id="siteNav" class="site-nav medium center hidearrow">
-                                <li class="lvl1 parent megamenu"><a href="{{route('home')}}">Home <i class="anm anm-angle-down-l"></i></a>
-                                 
+                                <li class="lvl1 parent megamenu"><a href="#">Acceuil <i class="anm anm-angle-down-l"></i></a>
+                        
                                 </li>
-                                <li class="lvl1 parent megamenu"><a href="{{route('shop')}}">Shop <i class="anm anm-angle-down-l"></i></a>
-                                    
-                                </li>
-                            <li class="lvl1 parent megamenu"><a href="{{route('shop')}}">Product <i class="anm anm-angle-down-l"></i></a>
+                                <li class="lvl1 parent megamenu"><a href="{{route('shop')}}">pyjama<i class="anm anm-angle-down-l"></i></a>
                                 
+                                </li>
+                                
+                            </li>                      
+                            <li class="lvl1 parent dropdown"><a href="#">Categories <i class="anm anm-angle-down-l"></i></a>
+                              <ul class="dropdown">
+                                <li><a href="blog-left-sidebar.html" class="site-nav">Pyjama d'hiver</a></li>
+                                <li><a href="blog-right-sidebar.html" class="site-nav">Pyjama d'été </a></li>
+                                <li><a href="blog-fullwidth.html" class="site-nav">Vétement de nuit</a></li>
+                                <li><a href="blog-grid-view.html" class="site-nav">Nouvelle collection</a></li>
+                                <li><a href="blog-article.html" class="site-nav">Promotion</a></li>
+                              </ul>
                             </li>
-                            <li class="lvl1 parent dropdown"><a href="#">Pages <i class="anm anm-angle-down-l"></i></a>
-                             
-                            </li>
-                            <li class="lvl1 parent dropdown"><a href="#">Blog <i class="anm anm-angle-down-l"></i></a>
-                          <ul class="dropdown">
-                            <li><a href="blog-left-sidebar.html" class="site-nav">Left Sidebar</a></li>
-                            <li><a href="blog-right-sidebar.html" class="site-nav">Right Sidebar</a></li>
-                            <li><a href="blog-fullwidth.html" class="site-nav">Fullwidth</a></li>
-                            <li><a href="blog-grid-view.html" class="site-nav">Gridview</a></li>
-                            <li><a href="blog-article.html" class="site-nav">Article</a></li>
-                          </ul>
-                        </li>
-                        <li class="lvl1"><a href="#"><b>Buy Now!</b> <i class="anm anm-angle-down-l"></i></a></li>
+                            <li class="lvl1 parent megamenu"><a href="#">à propos <i class="anm anm-angle-down-l"></i></a>
+    
+                            <li class="lvl1"><a href="#"><b>Contactez nous</b> <i class="anm anm-angle-down-l"></i></a></li>
                           </ul>
                         </nav>
                         <!--End Desktop Menu-->

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class Checkout extends Notification
+class CommandeNotification extends Notification
 {
     use Queueable;
 
@@ -55,7 +55,7 @@ class Checkout extends Notification
     public function toArray($notifiable)
     {
         return [
-            'commande'=>"Nouvelle commande par $this->name ",
+            'commande'=>"Nouvelle commande par : $this->name",
         ];
     }
 }

@@ -20,6 +20,7 @@ Route::get('/', [HomeController::class,'index'])->name('home');
 Route::get('/produit/{id}', [HomeController::class,'VoirProduit'])->name('VoirProduit');
 Route::get('/pijamti/cart',[HomeController::class,'cart'])->name('cart');
 Route::get('/pijamti/shop',[HomeController::class,'shop'])->name('shop');
+Route::get('/pijamti/contact',[HomeController::class,'contact'])->name('contact');
 
 Route::post('/produit/add', [HomeController::class,'ajouterAuCart'])->name('ajouterAuCart');
 Route::get('/menu/deleteItemFromCart/{id}',[HomeController::class,'deleteItemFromCart'])->name('deleteItemFromCart');
@@ -63,8 +64,6 @@ Route::post('admin/pijama/edit/{id}',[AdminController::class,'edit'] )->name('ed
 Route::get('admin/pijama/EditPriceForm/{id}',[AdminController::class,'editPijamaPrice'] )->name('editPijamaPrice');
 Route::post('admin/pijama/editPrice/{id}',[AdminController::class,'editPrice'] )->name('editPrice');
 
-Route::get('admin/pijama/EditImageForm/{id}',[AdminController::class,'editPijama'] )->name('editPijamaImage');
-Route::post('admin/pijama/editImage/{id}',[AdminController::class,'edit'] )->name('editImage');
 
 Route::get('/admin/product/add',[AdminController::class,'addProductForm'])->name('addProductForm');
 Route::post('/admin/product/add/submit',[AdminController::class,'addProduct'])->name('addProduct');
@@ -76,6 +75,11 @@ Route::get('/admin/pijama/categorie/{id}',[AdminController::class,'pijama'])->na
 
 Route::get('/admin/listeDesCommandes',[AdminController::class,'orders'])->name('Orders');
 Route::get('admin/order/remove/{id}',[AdminController::class,'removeOrder'])->name('removeorder');
+Route::post('admin/order/remove/Multiple',[AdminController::class,'delMultipleOrder'])->name('delMultipleOrder');
+
+
+Route::post('admin/change',[AdminController::class,'changeAdminInfo'])->name('changeAdminInfo');
+Route::get('admin/changeAdminInfo/form',[AdminController::class,'changeAdminInfoForm'])->name('changeAdminInfoForm');
 
 
 });

@@ -7,12 +7,14 @@
     "require": {
         "php": "^7.3|^8.0",
         "bumbummen99/shoppingcart": "^4.1",
+        "consoletvs/charts": "7.*",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/image": "^2.7",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "laraveldaily/laravel-charts": "^0.1.29",
         "livewire/livewire": "^2.10",
         "rtconner/laravel-tagging": "^4.1"
     },
