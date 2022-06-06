@@ -14,7 +14,8 @@
   <link rel="stylesheet" href="{{asset('vendors/simple-line-icons/css/simple-line-icons.css')}}">
   <link rel="stylesheet" href="{{asset('vendors/css/vendor.bundle.base.css')}}">
   <!-- endinject -->
- 
+  <script src="https://kit.fontawesome.com/1a35748197.js" crossorigin="anonymous"></script>
+
   <!-- Plugin css for this page -->
   <link rel="stylesheet" href="{{asset('vendors/datatables.net-bs4/dataTables.bootstrap4.css')}}">
   <link rel="stylesheet" href="{{asset('js/select.dataTables.min.css')}}">
@@ -39,7 +40,7 @@
             <img src="{{asset('images/logo.svg')}}" alt="logo" />
           </a>
           <a class="navbar-brand brand-logo-mini" href="{{route('dashboard')}}">
-            <img src="{{asset('adminImages/logo-mini-01.svg')}}" alt="logo"/>
+            <img src="{{asset('adminImages/logo-mini.svg')}}" alt="logo"/>
           </a>
         </div>
       </div>
@@ -52,42 +53,10 @@
         </ul>
         <ul class="navbar-nav ms-auto">
           <li class="nav-item dropdown">
-            <a class="nav-link count-indicator" id="notificationDropdown" href="#" data-bs-toggle="dropdown">
+            <a class="nav-link count-indicator" href="{{route('contactTable')}}" >
               <i class="icon-mail icon-lg"></i>
             </a>
-            <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="notificationDropdown">
-              <a class="dropdown-item py-3 border-bottom">
-                <p class="mb-0 font-weight-medium float-left">You have 4 new notifications </p>
-                <span class="badge badge-pill badge-primary float-right">View all</span>
-              </a>
-              <a class="dropdown-item preview-item py-3">
-                <div class="preview-thumbnail">
-                  <i class="mdi mdi-alert m-auto text-primary"></i>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject fw-normal text-dark mb-1">Application Error</h6>
-                  <p class="fw-light small-text mb-0"> Just now </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item py-3">
-                <div class="preview-thumbnail">
-                  <i class="mdi mdi-settings m-auto text-primary"></i>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject fw-normal text-dark mb-1">Settings</h6>
-                  <p class="fw-light small-text mb-0"> Private message </p>
-                </div>
-              </a>
-              <a class="dropdown-item preview-item py-3">
-                <div class="preview-thumbnail">
-                  <i class="mdi mdi-airballoon m-auto text-primary"></i>
-                </div>
-                <div class="preview-item-content">
-                  <h6 class="preview-subject fw-normal text-dark mb-1">New user registration</h6>
-                  <p class="fw-light small-text mb-0"> 2 days ago </p>
-                </div>
-              </a>
-            </div>
+           
           </li>
           <li class="nav-item dropdown"> 
             <a class="nav-link count-indicator" id="countDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
@@ -96,19 +65,24 @@
               <span class="count"></span>
               @endif
             </a>
+           
             <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="countDropdown">
+             
               <a class="dropdown-item py-3">
                 <p class="mb-0 font-weight-medium float-left">Vous avez {{$admin->unreadNotifications()->count()}} Commandes </p>
                 <span class="badge badge-pill badge-primary float-right">Voir</span>
               </a>
               <div class="dropdown-divider"></div>
              @forelse ($admin->unreadNotifications as $notification)
+              @if($notification->type == 'App\Notifications\CommandeNotfication')
+             
              <a class="dropdown-item preview-item">
               <div class="preview-item-content flex-grow py-2">
-                <p class="preview-subject ellipsis font-weight-medium text-dark">{{$notification->data['commande']}} </p>
+                <p class="preview-subject ellipsis font-weight-medium text-dark">{{$notification->data["commande"]}} </p>
               
               </div>
             </a>
+            @endif
              @empty
              <div class="preview-item-content flex-grow py-2">
              
@@ -265,7 +239,7 @@
           <li class="nav-item nav-category">AJOUTER PYJAMA OU CATEGORIE</li>
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-              <i class="menu-icon mdi mdi-floor-plan"></i>
+              <i class="fa-solid fa-circle-plus menu-icon"></i>
               <span class="menu-title">Ajouter</span>
               <i class="menu-arrow"></i> 
             </a>
@@ -279,7 +253,7 @@
           <li class="nav-item nav-category">EXPLORE - MODIFIER - SUPPRIMER</li>
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
-              <i class="menu-icon mdi mdi-card-text-outline"></i>
+              <i class="fa-solid fa-sitemap menu-icon"></i>
               <span class="menu-title">Explore produits</span>
               <i class="menu-arrow"></i>
             </a>
@@ -294,7 +268,7 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
-              <i class="menu-icon mdi mdi-chart-line"></i>
+              <i class="fa-solid fa-bag-shopping menu-icon"></i>
               <span class="menu-title">Cammandes</span>
               <i class="menu-arrow"></i>
             </a>
@@ -304,12 +278,24 @@
               </ul>
             </div>
           </li>
-        
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#banner" aria-expanded="false" aria-controls="banner">
+              <i class="fa-solid fa-circle-plus menu-icon"></i>
+              <span class="menu-title ml-3"> Banner</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="banner">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{{route('addSliderForm')}}">Ajouter</a></li>
+                <li class="nav-item"> <a class="nav-link" href="{{route('showSliders')}}">Supprimer</a></li>
+              </ul>
+            </div>
+          </li>
          
           <li class="nav-item nav-category">Account</li>
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-              <i class="menu-icon mdi mdi-account-circle-outline"></i>
+              <i class="fa-solid fa-user menu-icon"></i>
               <span class="menu-title">Changer Les informations</span>
               <i class="menu-arrow"></i>
             </a>

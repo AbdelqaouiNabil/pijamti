@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Categorie;
 use App\Models\Order;
+use App\Models\Contact;
 use App\Models\OrderItem;
+use App\Models\Home;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\UploadedFile;
@@ -69,9 +71,64 @@ class AdminController extends Controller
         $orderCount = Order::all()->count();
         $amount = OrderItem::all()->sum('total');;
         $admin = Admin::find(1);
+
         return view('admin.dashboard',['categories'=>$categories,'admin'=>$admin,'chart1'=>$chart1,'chart2'=>$chart2,'chart3'=>$chart3,'categoriesCount'=>$categoriesCount,'productCount'=> $productCount,'orderCount'=>$orderCount,'amount'=>$amount],$data,);
     }
-    
+
+    // add slider
+    public function addSliderForm(){
+        $admin = Admin::find(1);
+        $categories = Categorie::all();
+        $data =['loggedUserInfo'=>Admin::where('id','=',session('loggedUser'))->first()];
+        return view('admin.homeSliderForm',compact('admin','categories'),$data);
+
+    }
+  public function showSliders(){
+    $admin = Admin::find(1);
+    $categories = Categorie::all();
+    $slider = Home::all();
+    $data =['loggedUserInfo'=>Admin::where('id','=',session('loggedUser'))->first()];
+    return view('admin.pyjamas.vueSliders',compact('admin','categories','slider'),$data);
+
+  }
+
+    public function addSlider(Request $request){
+        $request->validate([
+            'slider'=>'required',
+            'firstTitre' => 'required',
+            'secondeTitre' => 'required',
+        
+        ]);
+
+      
+        $firstTitre = $request->input('firstTitre');
+        $secondeTitre = $request->input('secondeTitre');
+       
+        // image principale
+        Validator::make($request->all(),['slider'=>"required|file|image|mimes:jpg,png,jpeg|max:5000"])->validate();
+        $ext = $request->file('slider')->getClientOriginalExtension();
+        $imageStringFormat = str_replace(" ","",$firstTitre);
+        $imageName = $imageStringFormat."." .$ext;
+        $file = $request->file('slider');
+        $img = \Image::make($file)->fit(950,470)->save(storage_path().'/app/public/images/slider'.$imageName);
+      
+        $newSlider =array('slider'=>$imageName,'header'=>$firstTitre,'miniHeader'=>$secondeTitre);
+        $created = Home::create($newSlider);
+        if($created){
+            return redirect()->back()->with('sucess','slider bien ajouter');
+        }else{
+            return redirect()->back()->with('fail','ressayer plus tard');
+
+        }
+    }
+
+    public function delBanners(Request $request){
+        $del = $request->input('delid');
+        
+        Home::whereIn('id',$del)->delete();
+        return redirect()->back();
+    }
+
     public function pijama($id){
         $admin = Admin::find(1);
         $data =['loggedUserInfo'=>Admin::where('id','=',session('loggedUser'))->first()];
@@ -289,6 +346,30 @@ public function changeAdminInfo(Request $request){
     return redirect('/auth/login');
 
 
+}
+
+
+public function contactTable(){
+    $contact = Contact::orderBy('created_at','DESC')->get();
+    $data =['loggedUserInfo'=>Admin::where('id','=',session('loggedUser'))->first()];
+    $categories = Categorie::all();
+    $admin = Admin::find(1);
+    
+        return view('admin.contact',compact('contact','categories','admin'),$data);
+ 
+    
+}
+
+public function delMessage(Request $request){
+    $del = $request->input('delid');
+    $contact = DB::table('contacts')->whereIn('id', $del)->delete();
+    if($contact){
+        return redirect()->back()->with('sucess','Message bien supprimer');
+    }    
+    else{
+        return redirect()->back()->with('fail','quelque chose se passe mal');
+    }
+    
 }
 
 }

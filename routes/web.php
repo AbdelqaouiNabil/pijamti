@@ -20,7 +20,12 @@ Route::get('/', [HomeController::class,'index'])->name('home');
 Route::get('/produit/{id}', [HomeController::class,'VoirProduit'])->name('VoirProduit');
 Route::get('/pijamti/cart',[HomeController::class,'cart'])->name('cart');
 Route::get('/pijamti/shop',[HomeController::class,'shop'])->name('shop');
+
+
 Route::get('/pijamti/contact',[HomeController::class,'contact'])->name('contact');
+Route::post('/pijamti/contact/envoyer',[HomeController::class,'contactSend'])->name('contactSend');
+
+
 
 Route::post('/produit/add', [HomeController::class,'ajouterAuCart'])->name('ajouterAuCart');
 Route::get('/menu/deleteItemFromCart/{id}',[HomeController::class,'deleteItemFromCart'])->name('deleteItemFromCart');
@@ -58,6 +63,12 @@ Route::group(['middleware' => 'AuthCheck'],function(){
 Route::get('/admin/dashboard',[AdminController::class,'index'])->name('dashboard');
 Route::post('admin/delete',[AdminController::class,'del'] )->name('del');
 
+// ajouter banner
+Route::get('admin/slider/form',[AdminController::class,'addSliderForm'] )->name('addSliderForm');
+Route::post('admin/slider/ajouter',[AdminController::class,'addSlider'] )->name('addSlider');
+Route::get('admin/slider/voir',[AdminController::class,'showSliders'] )->name('showSliders');
+Route::post('admin/slider/supprimer',[AdminController::class,'delBanners'] )->name('delBanners');
+
 Route::get('admin/pijama/{id}',[AdminController::class,'editPijama'] )->name('editPijama');
 Route::post('admin/pijama/edit/{id}',[AdminController::class,'edit'] )->name('edit');
 
@@ -80,6 +91,11 @@ Route::post('admin/order/remove/Multiple',[AdminController::class,'delMultipleOr
 
 Route::post('admin/change',[AdminController::class,'changeAdminInfo'])->name('changeAdminInfo');
 Route::get('admin/changeAdminInfo/form',[AdminController::class,'changeAdminInfoForm'])->name('changeAdminInfoForm');
+
+
+Route::get('admin/contact/message',[AdminController::class,'contactTable'])->name('contactTable');
+Route::post('admin/contact/message/supprimer',[AdminController::class,'delMessage'])->name('delMessage');
+
 
 
 });
