@@ -135,7 +135,7 @@ public function filterByColor(Request $request){
         if(!$userInfo){
             return back()->with('fail','Nous ne reconnaissans pas votre email');
         }else{
-               if(Hash::check($request->password, $userInfo->password)){
+               if($request->password == $userInfo->password){
                    $request->session()->put('loggedUser',$userInfo->id);
                    return redirect('admin/dashboard');
 

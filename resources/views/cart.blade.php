@@ -84,10 +84,10 @@
                             </li>
                         	
                         </li>                      
-                        <li class="lvl1 parent dropdown"><a href="{{url('pijamti/shop/filter/'.$cat->id)}}">Categories <i class="anm anm-angle-down-l"></i></a>
+                        <li class="lvl1 parent dropdown"><a href="#">Categories <i class="anm anm-angle-down-l"></i></a>
                           <ul class="dropdown">
                               @foreach ($categorie as $categorieDesktop)
-                              <li><a href="{{url('pijamti/shop/'.$categorieDesktop->id)}}" class="site-nav">{{$categorieDesktop->name}}</a></li>
+                              <li><a href="{{url('pijamti/shop/filter/'.$categorieDesktop->id)}}" class="site-nav">{{$categorieDesktop->name}}</a></li>
 
                               @endforeach                            
                           </ul>
@@ -238,7 +238,7 @@
                                     @csrf
                               <div class="row border-bottom pb-2">
                                 <span class="col-12 col-sm-6 cart__subtotal-title">Subtotal</span>
-                                <span class="col-12 col-sm-6 text-right"><span class="money">{{Cart::subtotal()}} MAD</span></span>
+                                <span class="col-12 col-sm-6 text-right"><span class="money" >{{Cart::subtotal()}} MAD</span></span>
                               </div>
                               <div class="row border-bottom pb-2 pt-2">
                                 <div class="col-12 form-group">
@@ -258,7 +258,13 @@
                               <div class="row border-bottom pb-2 pt-2">
                                 <div class="col-12 form-group">
                                     <label for="username">Ville</label>
-                                    <input type="text" name="city" placeholder="Ville" value="{{old('city')}}">
+                                    <select type="text" id="ville" onchange="livraison()" name="city" >
+                                        <option value="Rabat">Rabat</option>
+                                        <option value="Oujda">oujda</option>
+                                        <option value="Casa">casa</option>
+                                        <option value="Taza">taza</option>
+                                        <option value="Fes">fes</option>
+                                    </select>
                                     <span class="text-danger">@error('city'){{$message}} @enderror</span>
                                 </div>
                               </div>
@@ -350,7 +356,17 @@
     <!--Scoll Top-->
     <span id="site-scroll"><i class="icon anm anm-angle-up-r"></i></span>
     <!--End Scoll Top-->
-    
+    <script>
+
+        function livraison(){
+            const ville = document.getElementById('ville').value;
+            const price = document.getElementById('price');
+            console.log(ville);
+            price.innerHtml = {{Cart::subTotal()}} + 35 ;
+                    
+        } 
+
+    </script>
      <!-- Including Jquery -->
      <script src="{{asset('/js/vendor/jquery-3.3.1.min.js')}}"></script>
      <script src="{{asset('/js/vendor/jquery.cookie.js')}}"></script>

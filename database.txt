@@ -1,0 +1,3 @@
+DB_DATABASE=pijaylfn_pijamti
+DB_USERNAME= pijaylfn_pijamtiadmin
+DB_PASSWORD=pijamti2022@new
