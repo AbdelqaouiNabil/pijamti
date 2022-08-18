@@ -242,7 +242,7 @@
                                 <span class="col-12 col-sm-6 cart__subtotal-title">subTotal</span>
                                 <span class="col-12 col-sm-6 text-right"><span class="money" >{{Cart::subTotal()}} MAD</span></span>
                               </div>   
-                              <form id="form" action="javascript:void(0)" method="post">
+                              <form id="form" action="javascript:void(0)" method="POST">
                                 @csrf 
                                 <div class="row border-bottom pb-2 pt-2">
                                     <div class="col-12 form-group">
@@ -256,7 +256,7 @@
                                   </div>
                                  
                               </form>        
-                              <form method="post" action="{{route('storeCart')}}">
+                              <form method="POST" action="{{route('storeCart')}}">
                                 @csrf 
                               <div class="row border-bottom pb-2 pt-2">
                                 <div class="col-12 form-group">

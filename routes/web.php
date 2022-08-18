@@ -21,6 +21,8 @@ Route::get('/produit/{id}', [HomeController::class,'VoirProduit'])->name('VoirPr
 Route::get('/pijamti/cart',[HomeController::class,'cart'])->name('cart');
 Route::get('/pijamti/shop',[HomeController::class,'shop'])->name('shop');
 
+Route::get('/promo',[HomeController::class,'shop'])->name('shop');
+
 
 Route::get('/pijamti/contact',[HomeController::class,'contact'])->name('contact');
 Route::post('/pijamti/contact/envoyer',[HomeController::class,'contactSend'])->name('contactSend');

@@ -1061,7 +1061,7 @@ $("#form").submit(function () {
     var code = $("#code").val();
 	
 	$.ajax({
-		type:'POST',
+		type:'post',
 		url:'/promo',
 		data: {code:code},
 		async: true,
