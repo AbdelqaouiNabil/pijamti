@@ -1056,4 +1056,22 @@
 	  -------------------------------------*/
 	
 
+
+$("#form").submit(function () {
+    var code = $("#code").val();
+	
+	$.ajax({
+		type:'POST',
+		url:'/promo',
+		data: {code:code},
+		async: true,
+		dataType: "json",
+		success:function(resp){
+
+		},error:function(){
+			alert("erreur");
+		}
+	})
+});
+
 })(jQuery);

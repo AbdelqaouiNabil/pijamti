@@ -182,7 +182,7 @@ public function filterByColor(Request $request){
     $img = $product->image;
     $size = $request->input('size');
     $color = $request->input('color');
-    $cart= Cart::instance('shopping')->add($product->id,$product->name,$request->input('quantity'),$product->price,0,['image' => $img ,'desc'=>$product->description,'size'=>$size,'color'=>$color]);
+    $cart= Cart::instance('shopping')->add($product->id,$product->name,$request->input('quantity'),$product->price,0,['image' => $img ,'desc'=>$product->description,'size'=>$size,'color'=>$color,'shipping'=>0]);
     return redirect()->route('cart')->with('sucess','Produit bien ajouter au cart ');
  }
 
@@ -285,8 +285,13 @@ return back()->with('sucess','Le panier est bien supprimer');
          return view('cart',['cart'=>$cart,'categorie'=>$categorie]);
  }
 
-
-
+ public function applyPromoCode(Request $request) {
+    if($request->ajax){
+        $data = $request->all();
+        $couponCode = Promo::where('code',$data['code']);
+echo "<pre>";print_r($couponCode);die;
+    }
+}
 
  public function storeCart(Request $request){
   $admin = Admin::all();

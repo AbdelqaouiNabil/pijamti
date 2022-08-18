@@ -18,10 +18,8 @@
 <link rel="stylesheet" href="{{asset('/css/style.css')}}">
 <link rel="stylesheet" href="{{asset('/css/responsive.css')}}">
 <script src="https://kit.fontawesome.com/1a35748197.js" crossorigin="anonymous"></script>
-<script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
 </head>
-
+@livewireStyles
 <body class="page-template belle cart-variant1">
   <div id="pre-loader">
     <img src="{{asset('./images/loader.gif')}}" alt="Loading..." />
@@ -237,27 +235,12 @@
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-4 col-lg-4 cart__footer ">
                             <div class="solid-border">	
-                               
+                                <form method="post" action="{{route('storeCart')}}">
+                                    @csrf
                               <div class="row border-bottom pb-2">
                                 <span class="col-12 col-sm-6 cart__subtotal-title">subTotal</span>
                                 <span class="col-12 col-sm-6 text-right"><span class="money" >{{Cart::subTotal()}} MAD</span></span>
-                              </div>   
-                              <form id="form" action="javascript:void(0)" method="post">
-                                @csrf 
-                                <div class="row border-bottom pb-2 pt-2">
-                                    <div class="col-12 form-group">
-                                        <label for="code">Code promo</label>
-                                        <input type="text" id="code" name="promo" placeholder="Entrer votre code promo" >
-
-                                    </div>
-                                    <div class="text-center col-12 col-sm-12 col-md-12 col-lg-12">
-                                        <button type="submit"  class="btn mb-3" > Appliquer  </button> 
-                                    </div>
-                                  </div>
-                                 
-                              </form>        
-                              <form method="post" action="{{route('storeCart')}}">
-                                @csrf 
+                              </div>            
                               <div class="row border-bottom pb-2 pt-2">
                                 <div class="col-12 form-group">
                                     <label for="username">Nom et Prénom</label>
@@ -293,7 +276,6 @@
                                     <span class="text-danger">@error('adress'){{$message}} @enderror</span>
                                 </div>
                               </div>
-                            
                               <div class="row border-bottom pb-2 pt-2">
                                 
                                     <div class="text-center col-12 col-sm-12 col-md-12 col-lg-12">
@@ -376,9 +358,9 @@
     <!--Scoll Top-->
     <span id="site-scroll"><i class="icon anm anm-angle-up-r"></i></span>
 
-    
+    @livewireScripts
     <!--End Scoll Top-->
-    
+
      <!-- Including Jquery -->
      <script src="{{asset('/js/vendor/jquery-3.3.1.min.js')}}"></script>
      <script src="{{asset('/js/vendor/jquery.cookie.js')}}"></script>
