@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Categorie;
 use App\Models\Admin;
+use App\Models\Promo;
 use App\Models\Order;
 use App\Models\Contact;
 use App\Models\Home;
@@ -13,6 +14,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Session;
 use App\Notifications\CommandeNotification;
 use App\Notifications\ContactNotification;
 use Illuminate\Support\Facades\Hash;
@@ -224,10 +226,15 @@ public function deleteItemFromCart($id){
     
         $remove = Cart::instance('shopping')->remove($id);
           if($remove){
+
             return back()->with('fail','ressayer plut tard');
       
   }else{
-    return back()->with('sucess','le plat est bien supprimer');
+    Session::pull('total', 'default');
+    Session::pull('discount', 'default');
+    Session::pull('livraison', 'default');
+
+        return back()->with('sucess','le plat est bien supprimer');
   }
 
 }
@@ -258,6 +265,9 @@ public function deleteAllItemFromCart(){
             return back()->with('fail','ressayer plut tard');
       
   }else{
+    Session::pull('total', 'default');
+    Session::pull('discount', 'default');
+    Session::pull('livraison', 'default');
     return back()->with('sucess','Le panier est bien supprimer');
   }
 
@@ -279,21 +289,30 @@ return back()->with('sucess','Le panier est bien supprimer');
 
 
 
- public function cart(){
+ public function cart(Request $request){
          $cart = Cart::instance('shopping')->content();
          $categorie = Categorie::all();
          return view('cart',['cart'=>$cart,'categorie'=>$categorie]);
  }
-
  public function applyPromoCode(Request $request) {
-    if($request->ajax){
-        $data = $request->all();
-        $couponCode = Promo::where('code',$data['code']);
-echo "<pre>";print_r($couponCode);die;
-    }
+  $request->validate([
+    'promo'=>'required',
+]);
+        $promo = $request->input('promo');
+        $couponCode = Promo::where('code',$promo)->first();
+        if($couponCode == null){
+          Session::put('discount', 0);
+          return redirect()->back()->with('couponFail','votre code promo est Invalide');
+        }else{
+          Session::put('discount', $couponCode->value);
+          return redirect()->back()->with('couponSucess','votre code promo est valide');
+        }
 }
 
- public function storeCart(Request $request){
+public function confirme(Request $request){
+  $cart = Cart::instance('shopping')->content();
+  $fraisLivraison = 0;
+  $categorie = Categorie::all();
   $admin = Admin::all();
   $request->validate([
     'name'=>'required',
@@ -301,18 +320,47 @@ echo "<pre>";print_r($couponCode);die;
     'adress' => 'required',
     'city' => 'required',
 ]);
-if(Cart::instance('shopping')->content()->count() > 0){
-  $mytime = Carbon::now();
-  $order = new Order();
-  $order->nom = $request->input('name');
-  $order->tel = $request->input('phone');
-  $order->adress = $request->input('adress');
-  $order->city = $request->input('city');
-  $order->created_at = $mytime->toDateTimeString();
-    
- $order->save();
- Notification::send($admin,new CommandeNotification($request->input('name')));
+Session::put('name',$request->input('name'));
+Session::put('phone',$request->input('phone'));
+Session::put('adress',$request->input('adress'));
+Session::put('city',$request->input('city'));
 
+$cities = ['Casa','Mohamadia'];
+
+
+
+  if(!in_array($request->input("city"), $cities) ){
+    $fraisLivraison = 35;
+    $total= ( str_replace(',', '', Cart::instance('shopping')->subtotal())- ( str_replace(',', '', Cart::instance('shopping')->subtotal()) * Session::get('discount')) / 100) + $fraisLivraison   ;
+    Session::put('total', $total);
+    Session::put('promo', Session::get('discount'));
+    Session::put('livraison', $fraisLivraison);
+  }else{
+    $total= ( str_replace(',', '', Cart::instance('shopping')->subtotal()) - ( str_replace(',', '', Cart::instance('shopping')->subtotal()) * Session::get('discount')) / 100) ;
+    Session::put('total', $total);
+    Session::put('promo', Session::get('discount'));
+    Session::put('livraison', $fraisLivraison);
+
+
+  }
+
+$info= ['name'=>$request->input('name'),'phone'=>$request->input('phone'),'adress'=>$request->input('adress'),'city'=>$request->input('city')];
+return view('confirmeOrder',['cart'=>$cart,'categorie'=>$categorie,'info'=>$info,'fraisLivraison'=>$fraisLivraison]);
+
+}
+
+ public function storeCart(){
+  $admin = Admin::all();
+if(Cart::instance('shopping')->content()->count() > 0){
+ $mytime = Carbon::now();
+ $order = new Order();
+ $order->nom = Session::get('name');
+ $order->tel = Session::get('phone');
+ $order->adress = Session::get('adress');
+ $order->city = Session::get('city');
+ $order->created_at = $mytime->toDateTimeString();
+ $order->save();
+ Notification::send($admin,new CommandeNotification(Session::get('name')));
  $order->id;
  $cartItems = Cart::instance('shopping')->content();
  foreach($cartItems as $item){
@@ -325,15 +373,17 @@ if(Cart::instance('shopping')->content()->count() > 0){
      'color'=> $item->options->color,
      'size'=> $item->options->size,
      'subtotal'=> $item->subtotal,
-     'total'=> Cart::priceTotal(),
+     'codepromo'=> Session::get('promo'),
+     'livraison'=> Session::get('livraison'),
+     'total'=> Session::get('total'),
    ]);
  }
  Cart::instance('shopping')->destroy();
+ Session::flush();
 
  return redirect()->route('cart')->with('saved','Votre commande a été envoyée avec succès, nous vous contacterons pour la confirmer ');
 }else{
   return back()->with('fail','votre cart est vide');
-
 }
 
  

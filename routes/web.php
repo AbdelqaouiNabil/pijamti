@@ -4,8 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 
-Route::get('/test', [HomeController::class,'test'])->name('test');
-Route::post('/checktest', [HomeController::class,'checktest'])->name('checktest');
 
 
 
@@ -21,7 +19,10 @@ Route::get('/produit/{id}', [HomeController::class,'VoirProduit'])->name('VoirPr
 Route::get('/pijamti/cart',[HomeController::class,'cart'])->name('cart');
 Route::get('/pijamti/shop',[HomeController::class,'shop'])->name('shop');
 
-Route::get('/promo',[HomeController::class,'shop'])->name('shop');
+Route::post('/promo',[HomeController::class,'applyPromoCode'])->name('promo');
+
+Route::post('/pijamti/commande/confirme',[HomeController::class,'confirme'])->name('confirme');
+Route::post('/pijamti/commander',[HomeController::class,'storeCart'])->name('storeCart');
 
 
 Route::get('/pijamti/contact',[HomeController::class,'contact'])->name('contact');
@@ -49,10 +50,6 @@ Route::post('/pijamti/shop/filterByPrice',[HomeController::class,'filterByPriceR
 Route::post('/pijamti/shop/filterBySize',[HomeController::class,'filterBySize'])->name('filterBySize');
 Route::post('/pijamti/shop/filterByColor',[HomeController::class,'filterByColor'])->name('filterByColor');
 
-//  Store Cart
-Route::post('/pijamti/shop/cart/storeCart',[HomeController::class,'storeCart'])->name('storeCart');
-
-
 
 Route::get('/auth/login', [HomeController::class,'login'])->name('login');
 Route::post('/auth/check',[HomeController::class,'check'])->name('auth.check');
@@ -64,6 +61,8 @@ Route::group(['middleware' => 'AuthCheck'],function(){
 
 Route::get('/admin/dashboard',[AdminController::class,'index'])->name('dashboard');
 Route::post('admin/delete',[AdminController::class,'del'] )->name('del');
+
+
 
 // ajouter banner
 Route::get('admin/slider/form',[AdminController::class,'addSliderForm'] )->name('addSliderForm');
@@ -98,6 +97,11 @@ Route::get('admin/changeAdminInfo/form',[AdminController::class,'changeAdminInfo
 Route::get('admin/contact/message',[AdminController::class,'contactTable'])->name('contactTable');
 Route::post('admin/contact/message/supprimer',[AdminController::class,'delMessage'])->name('delMessage');
 
+
+
+// add promo code 
+Route::get('/admin/promocode/form','AdminController@addCouponCode')->name('addCouponCode');
+Route::post('/admin/promocode/add','AdminController@addPromo')->name('addPromo');
 
 
 });

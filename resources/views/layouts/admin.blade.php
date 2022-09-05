@@ -247,6 +247,7 @@
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="{{route('addProductForm')}}">Produit</a></li>
                 <li class="nav-item"> <a class="nav-link" href="{{route('addCategorieForm')}}">Categorie</a></li>              
+                <li class="nav-item"> <a class="nav-link" href="{{route('addCouponCode')}}">code promo</a></li>              
               </ul>
             </div>
           </li>

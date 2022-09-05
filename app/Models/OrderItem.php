@@ -18,6 +18,8 @@ class OrderItem extends Model
         'color',
         'price',
         'subtotal',
+        'codepromo',
+        'livraison',
         'total',
     ];
     protected function Order()

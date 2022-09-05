@@ -23,6 +23,8 @@ class CreateOrderItemsTable extends Migration
             $table->text('qty');
             $table->text('price');
             $table->text('subtotal');
+            $table->text('codepromo')->nullable();
+            $table->text('livraison');
             $table->text('total');
             $table->timestamps();
         });

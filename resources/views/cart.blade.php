@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html class="no-js" lang="en">
 
 <!-- belle/cart-variant1.html   11 Nov 2019 12:44:31 GMT -->
@@ -19,7 +20,6 @@
 <link rel="stylesheet" href="{{asset('/css/responsive.css')}}">
 <script src="https://kit.fontawesome.com/1a35748197.js" crossorigin="anonymous"></script>
 <script src = "https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
 </head>
 
 <body class="page-template belle cart-variant1">
@@ -231,24 +231,58 @@
                	</div>
                 
                 
-                <div class="container ">
-                    
-                        
+                <div class="container">
+                      
                     <div class="row">
                         <div class="col-12 col-sm-12 col-md-4 col-lg-4 cart__footer ">
-                            <div class="solid-border">	
+                           
+                            @if (Session::get('couponSucess'))
+                            <div class="alert alert-success">
+                                {{Session::get('couponSucess')}}
+        
+                            </div>
+                                
+                            @endif
+                            @if (Session::get('couponFail'))
+                            <div class="alert alert-danger">
+                                {{Session::get('couponFail')}}
+        
+                            </div>
+                                
+                            @endif
+                              <form action="{{route('promo')}}" method="POST">
+
+                                <div class="solid-border">	
                                
-                              <div class="row border-bottom pb-2">
-                                <span class="col-12 col-sm-6 cart__subtotal-title">subTotal</span>
-                                <span class="col-12 col-sm-6 text-right"><span class="money" >{{Cart::subTotal()}} MAD</span></span>
-                              </div>   
-                              <form id="form" action="javascript:void(0)" method="POST">
+                                    <div class="row border-bottom pb-2">
+                                      <span class="col-12 col-sm-6 cart__subtotal-title">subTotal</span>
+                                      <span class="col-12 col-sm-6 text-right">
+                                          <span class="money" >{{Cart::subtotal()}} MAD</span></span>
+                                    </div>                 
+                                    <div class="row border-bottom pb-2">
+                                        <span class="col-12 col-sm-6 cart__subtotal-title">discount value</span>
+                                        
+                                            @if (Session::get('discount'))
+                                            <span class="col-12 col-sm-6 text-right"><span class="money" >
+                                            {{Session::get('discount')}} %
+                                        </span>
+                                                
+                                            @else
+                                                
+                                            <span class="col-12 col-sm-6 text-right"><span class="money" >
+                                                0 %
+                                            </span>
+                                            @endif
+                                           </span>
+                                      </div>
                                 @csrf 
                                 <div class="row border-bottom pb-2 pt-2">
+                                   
                                     <div class="col-12 form-group">
                                         <label for="code">Code promo</label>
                                         <input type="text" id="code" name="promo" placeholder="Entrer votre code promo" >
-
+                                        <span class="text-danger">@error('promo'){{$message}} @enderror</span>
+                                       
                                     </div>
                                     <div class="text-center col-12 col-sm-12 col-md-12 col-lg-12">
                                         <button type="submit"  class="btn mb-3" > Appliquer  </button> 
@@ -256,7 +290,7 @@
                                   </div>
                                  
                               </form>        
-                              <form method="POST" action="{{route('storeCart')}}">
+                              <form method="POST" action="{{route('confirme')}}">
                                 @csrf 
                               <div class="row border-bottom pb-2 pt-2">
                                 <div class="col-12 form-group">
@@ -277,6 +311,7 @@
                                 <div class="col-12 form-group">
                                     <label for="username">Ville</label>
                                     <select type="text" id="ville"  name="city" >
+                                        <option value="Rabat">--- Choisie Votre ville ---</option>
                                         <option value="Rabat">Rabat</option>
                                         <option value="Oujda">oujda</option>
                                         <option value="Casa">casa</option>
@@ -298,8 +333,9 @@
                                 
                                     <div class="text-center col-12 col-sm-12 col-md-12 col-lg-12">
                                         <input type="submit" class="btn mb-3" value="Commander">    
+                                       
                                     </div>
-                                
+                                    
                               </div>
                               <p>  - Livraison Casa Mohamadia Gratuite<br> -  Hors Casablanca 35 MAD</p>                            
                             </form>
@@ -341,7 +377,7 @@
     
     </div>
     <!--End Body Content-->
-    
+     
     <!--Footer-->
     <footer id="footer">
        
@@ -376,7 +412,20 @@
     <!--Scoll Top-->
     <span id="site-scroll"><i class="icon anm anm-angle-up-r"></i></span>
 
-    
+    <script>
+        
+       let ville = document.getElementById("ville");
+       let     Session::pull('livraison', 'default');
+ = document.getElementById("livraison");
+       ville.addEventListener('change',()=>{
+           alert(ville.value);
+           if(ville.value === "Casa" || ville.value === "Rabat" ){
+            {{Session::put('livraison',45)}} ;
+            location.reload(); 
+           }
+       })
+
+        </script>
     <!--End Scoll Top-->
     
      <!-- Including Jquery -->

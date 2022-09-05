@@ -15,7 +15,7 @@ class PromoSeeder extends Seeder
     {
        DB::table('promos')->insert([
            'code'=> "pijamti",
-           'code'=> 10,
+           'value'=> 10,
        ]);
     }
 }

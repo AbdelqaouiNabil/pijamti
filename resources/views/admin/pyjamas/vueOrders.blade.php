@@ -30,6 +30,8 @@
   <th>prix</th>
   <th>Quantity</th>
   <th>subtotal</th>
+  <th>promo value</th>
+  <th>livraison</th>
   <th>Total</th>
   <th>Supprimer</th>
                         </tr>
@@ -54,7 +56,7 @@
                           @endforeach</td>
                           <td> @foreach ($items as $item)
                             @if ($item->orderId == $order->id)
-                            {{$item->size}} <br> <hr>
+                            {{$item->color}} <br> <hr>
                             @endif
                            
                             
@@ -62,7 +64,7 @@
                      
                             <td> @foreach ($items as $item)
                               @if ($item->orderId == $order->id)
-                              {{$item->color}} <br> <hr>
+                              {{$item->size}} <br> <hr>
                               @endif
                              
                               
@@ -89,7 +91,37 @@
                                     {{$item->subtotal}} dh <br> <hr>
                                     @endif
                                     @endforeach</td>
+
                                     <td> 
+
+
+                                      @foreach ($items as $item)
+                                      @if ($item->orderId == $order->id)
+                                        @if ($item->codepromo)
+                                        {{$item->codepromo}} %<br>
+                                        @break
+                                        @else
+                                            0 %<br>
+                                        @endif
+                                        @endif
+                                        
+                                        @endforeach
+                                    </td>
+                                       
+                                    <td> 
+
+
+                                      @foreach ($items as $item)
+                                      @if ($item->orderId == $order->id)
+                                        {{$item->livraison}} dh<br>
+                                        @break
+                                        @endif
+                                        
+                                        @endforeach
+                                    </td>
+                                    <td> 
+
+
                                       @foreach ($items as $item)
                                       @if ($item->orderId == $order->id)
                                         {{$item->total}} dh<br>

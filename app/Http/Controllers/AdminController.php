@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Categorie;
+use App\Models\Promo;
 use App\Models\Order;
 use App\Models\Contact;
 use App\Models\OrderItem;
@@ -247,7 +248,24 @@ class AdminController extends Controller
         }
        
     }
+    public function addCouponCode(){
+        $admin = Admin::find(1);
+        $categories = Categorie::all();
+        $data =['loggedUserInfo'=>Admin::where('id','=',session('loggedUser'))->first()];
+        return view('admin.addCouponCodeForm',['categories'=>$categories,'admin'=>$admin],$data);
+    }
 
+    public function addPromo(Request $request){
+        $request->validate([
+            'nom'=>'required',
+            'codeValue'=>'required'
+        ]);
+        $promo = new Promo();
+        $promo->code = $request->input('nom');
+        $promo->value = $request->input('codeValue');
+        $promo->save();
+        return redirect()->back()->with('saved','Votre promo code est bien ajouter');
+    }
     // add categorie form
     public function addCategorieForm(){
         $admin = Admin::find(1);
