@@ -270,6 +270,18 @@
           <li class="nav-item">
             <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
               <i class="fa-solid fa-bag-shopping menu-icon"></i>
+              <span class="menu-title">Code Promo</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="charts">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="{{route('promoCodes')}}">Liste des codes promo</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
+              <i class="fa-solid fa-bag-shopping menu-icon"></i>
               <span class="menu-title">Cammandes</span>
               <i class="menu-arrow"></i>
             </a>

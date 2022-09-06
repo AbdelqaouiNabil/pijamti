@@ -317,7 +317,27 @@ public function orders(){
    
 
 }
-
+    // order
+    public function promoCodes(){
+        $data =['loggedUserInfo'=>Admin::where('id','=',session('loggedUser'))->first()];
+        $admin = Admin::find(1);
+        $promo = Promo::orderBy('created_at', 'DESC')->get();
+        $categorie = Categorie::all();
+     
+                foreach ($admin->unreadNotifications as $notification) {
+                    $notification->markAsRead();
+        }
+        return view('admin.pyjamas.vueCodePromo',['categories'=>$categorie,'promo'=>$promo,'admin'=>$admin],$data);
+       
+       
+    
+    }
+    
+    public function deletePromo($id){
+        $promo = DB::table('promos')->where('id', $id)->delete();
+        return redirect()->back()->with('alert',"promo code bien supprimer");
+    }
+    
 public function removeOrder($id){
     $orders = DB::table('orders')->where('id', $id)->delete();
     $order_items = DB::table('order_items')->where('orderId', $id)->delete();

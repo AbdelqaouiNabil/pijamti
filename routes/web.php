@@ -104,4 +104,7 @@ Route::get('/admin/promocode/form','AdminController@addCouponCode')->name('addCo
 Route::post('/admin/promocode/add','AdminController@addPromo')->name('addPromo');
 
 
+Route::get('/admin/listeDesCodesPromo',[AdminController::class,'promoCodes'])->name('promoCodes');
+Route::get('admin/promo/remove/{id}',[AdminController::class,'deletePromo'])->name('deletePromo');
+
 });
